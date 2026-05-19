@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# Data — NEVER commit raw or processed h5ad/loom files (too large for git)
+data/*.h5ad
+data/*.loom
+data/*.h5
+data/*.mtx
+data/*.tar
+data/*.tar.gz
+data/*.zip
+data/raw/
+data/processed/
+!data/README.md
+!data/.gitkeep
+
+# scVI model checkpoints
+models/
+*.pt
+*.pth
+
+# Pytest
+.pytest_cache/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Distribution / build
+build/
+dist/
+*.egg-info/

@@ -1,0 +1,36 @@
+# Core scRNA-seq stack
+scanpy>=1.10
+anndata>=0.10
+scvi-tools>=1.1
+leidenalg>=0.10
+python-igraph>=0.11
+
+# Numerical / ML
+numpy>=1.24
+pandas>=2.0
+scipy>=1.11
+scikit-learn>=1.3
+h5py>=3.10  # used directly in src/subsample.py for streaming reads off luca_core.h5ad
+
+# Visualization
+matplotlib>=3.7
+seaborn>=0.13
+
+# Dataset I/O
+requests>=2.31
+tqdm>=4.65
+
+# Notebook environment
+jupyter>=1.0
+ipykernel>=6.0
+
+# Testing
+pytest>=7.0
+
+# --- Optional (Linux / macOS only) ---------------------------------------
+# cellxgene-census enables querying the CELLxGENE Census directly via SOMA.
+# As of May 2026 it depends on tiledbsoma, which has no Windows wheel; the
+# pip install on Windows triggers a C++ source build that fails on MSVC.
+# On Windows, use the manual h5ad download path documented in data/README.md.
+# Uncomment the next line if you're on Linux or macOS and want the Census API:
+# cellxgene-census>=1.15
