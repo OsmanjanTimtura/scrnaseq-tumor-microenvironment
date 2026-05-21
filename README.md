@@ -20,8 +20,8 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the full 6–8 week scope, dataset ch
 |---|---|
 | 1. Setup + LuCA subsample (h5py streaming, no Census-API dep) | ✅ done |
 | 2. QC + filter + normalize (notebook 01) | ✅ done |
-| 3. scVI integration (notebook 02) | 🚧 in progress |
-| 4. Cell-type annotation vs LuCA benchmark (notebook 03) | ⏳ pending |
+| 3. scVI integration (notebook 02) | ✅ done |
+| 4. Cell-type annotation vs LuCA benchmark (notebook 03) | 🚧 in progress |
 | 5. LUAD vs LUSC compositional classifier (notebook 04) | ⏳ pending |
 | 6. Writing + polish | ⏳ pending |
 | 7. (Stretch) never-smoker vs smoker analysis | ⏳ pending |

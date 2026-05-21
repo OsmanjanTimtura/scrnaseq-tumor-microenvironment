@@ -1,0 +1,5 @@
+,value,interpretation
+cell_type_silhouette_pca,0.09628544002771378,before — cell-type clustering
+cell_type_silhouette_scvi,0.13439859449863434,after — cell-type clustering (want HIGHER)
+study_silhouette_pca,-0.01807579956948757,before — study clustering
+study_silhouette_scvi,-0.06915877759456635,after — study clustering (want LOWER)
