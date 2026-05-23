@@ -1,0 +1,12 @@
+metric,value
+n_patients,71.0
+n_luad,50.0
+n_lusc,21.0
+n_studies,10.0
+auroc_gradientboosting,0.4819
+auroc_logreg,0.4343
+auroc_dummy,0.4376
+balanced_accuracy_primary,0.589
+null_auroc_mean,0.4842
+perm_p_value,0.5347
+tumor_normal_studies_with_both,0.0

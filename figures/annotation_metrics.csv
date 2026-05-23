@@ -1,0 +1,5 @@
+metric,value
+overall_agreement,0.9524
+adjusted_rand_index,0.9184
+n_cells_compared,90563.0
+n_leiden_clusters,38.0

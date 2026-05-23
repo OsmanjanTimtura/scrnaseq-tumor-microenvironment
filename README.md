@@ -1,6 +1,6 @@
 # scRNA-seq Tumor Microenvironment Analysis — Lung (LuCA)
 
-🚧 **In progress** — repo bootstrapped May 14, 2026; target completion 6–8 weeks.
+✅ **Complete** — end-to-end scRNA-seq analysis pipeline (notebooks 01–04), built May 2026.
 
 End-to-end single-cell RNA-seq pipeline applied to the **LuCA core atlas of lung cancer cell states** (Salcher et al. 2022, *Cancer Cell*; 892K cells, 19 integrated NSCLC studies). Uses the 2026-standard pharma comp-bio stack — **scanpy + scVI** plus direct HDF5 reads via `h5py` for memory-efficient subsampling — for QC, embedding evaluation, cell-type annotation, and downstream compositional analysis of LUAD vs LUSC.
 
@@ -12,7 +12,7 @@ End-to-end single-cell RNA-seq pipeline applied to the **LuCA core atlas of lung
 
 See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the full 6–8 week scope, dataset choice, biological question, phases, risks, and what's deliberately out of scope.
 
-**Short version:** Salcher et al. 2022 lung cancer atlas (LuCA) → stratified subsample (~100–200K cells) → QC + evaluation of the published scVI embedding → cell-type annotation against published LuCA labels → per-patient cell-state composition → LightGBM classifier predicting LUAD vs LUSC histology with leave-one-study-out cross-validation. **Stretch:** within LUAD only, never-smoker vs smoker compositional comparison (Sherlock-Lung adjacent).
+**Short version:** Salcher et al. 2022 lung cancer atlas (LuCA) → stratified subsample (~100K cells) → QC + scVI batch integration → cell-type annotation benchmarked against published LuCA labels → per-patient cell-state composition → gradient-boosted-tree classifier (scikit-learn) predicting LUAD vs LUSC histology with leave-one-study-out cross-validation. **Stretch (not pursued):** within-LUAD never-smoker vs smoker compositional comparison.
 
 ## Status
 
@@ -21,10 +21,49 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the full 6–8 week scope, dataset ch
 | 1. Setup + LuCA subsample (h5py streaming, no Census-API dep) | ✅ done |
 | 2. QC + filter + normalize (notebook 01) | ✅ done |
 | 3. scVI integration (notebook 02) | ✅ done |
-| 4. Cell-type annotation vs LuCA benchmark (notebook 03) | 🚧 in progress |
-| 5. LUAD vs LUSC compositional classifier (notebook 04) | ⏳ pending |
-| 6. Writing + polish | ⏳ pending |
-| 7. (Stretch) never-smoker vs smoker analysis | ⏳ pending |
+| 4. Cell-type annotation vs LuCA benchmark (notebook 03) | ✅ done |
+| 5. LUAD vs LUSC compositional analysis (notebook 04) | ✅ done |
+| 6. Writing + polish | ✅ done |
+| 7. (Stretch) never-smoker vs smoker analysis | — not pursued |
+
+## Results
+
+**Cell-type annotation (notebook 03).** Leiden clustering on the scVI latent
+space, combined with marker-gene scoring of nine major lineages, assigned
+every cell in the ~92K-cell subsample to a coarse cell type. Benchmarked
+against LuCA's published expert annotation (24 categories harmonised down to
+the same nine), the labelling **agreed on 95.2% of cells** with an
+**Adjusted Rand Index of 0.92**; per-lineage recall ranged 0.86–1.00. The one
+soft spot — a fraction of NK cells called as T cells — reflects the
+well-known transcriptional overlap between NK and cytotoxic CD8 T cells.
+
+**LUAD vs LUSC from composition — a null result (notebook 04).** Per-patient
+cell-type composition vectors (nine proportions) were used to predict
+adenocarcinoma vs squamous-cell histology across **71 patients** (50 LUAD /
+21 LUSC, 10 studies) under **leave-one-study-out cross-validation**. The
+result is null: gradient-boosted trees reached **AUROC 0.48** — no better
+than the dummy baseline (0.44) and indistinguishable from a 100-iteration
+label-shuffle null (mean 0.48, **empirical p = 0.54**).
+
+This is a genuine negative result, not a pipeline failure: a synthetic
+positive control recovered a planted signal at AUROC 0.83, and the model and
+dummy baseline land in the same place — the signature of "no signal" rather
+than "broken model." It is also biologically reasonable. LUAD and LUSC differ
+chiefly in the *malignant epithelial cells' differentiation program*, not in
+the *proportions* of immune and stromal cell types; and per-patient
+composition carries large study- and sampling-driven technical variation.
+A clean null under rigorous cross-validation, reported honestly, is a
+legitimate finding.
+
+**Tumour vs normal — descriptive only, by design.** Composition separates
+tumour tissue (immune-infiltrated) from normal lung (epithelial- and
+endothelial-dominated) in the expected direction. But in LuCA every normal
+sample comes from a separate non-cancer lung atlas — **zero studies contain
+both tumour and normal donors** — so tumour/normal status is perfectly
+confounded with study-of-origin. A classifier would report an uninterpretable
+mixture of biology and batch, so this contrast is presented descriptively
+only, with the confound documented explicitly. Recognising a confound and
+declining to over-claim is part of the demonstration.
 
 ## Getting started
 
@@ -49,7 +88,7 @@ jupyter notebook notebooks/01_data_download_and_qc.ipynb
 
 ## Tools
 
-`Python 3.11` · `scanpy` · `anndata` · `scvi-tools` · `h5py` · `leiden` · `lightgbm` · `shap` · `scikit-learn` · `pandas` · `numpy` · `matplotlib` · `seaborn` · `Jupyter` · `pytest`
+`Python 3.11` · `scanpy` · `anndata` · `scvi-tools` · `h5py` · `leiden` · `scikit-learn` · `pandas` · `numpy` · `matplotlib` · `seaborn` · `Jupyter` · `pytest`
 
 ## What this repo demonstrates
 
@@ -62,13 +101,14 @@ jupyter notebook notebooks/01_data_download_and_qc.ipynb
   (`n_genes_by_counts`, `pct_counts_mito`, `doublet_status`) — comparing our
   thresholds against the atlas's own
 - scVI batch correction with `study` as the batch key
-- Marker-gene-based cell-type annotation, compared against LuCA's published
-  labels for benchmarking
-- Cell-state composition analysis at the patient level
-- LightGBM + SHAP classifier predicting NSCLC histology from cell-state
-  composition with **leave-one-study-out cross-validation** (the right CV for
-  multi-study data)
-- Honest limitations section
+- Marker-gene-based cell-type annotation, benchmarked against LuCA's published
+  labels (95% agreement, ARI 0.92)
+- Per-patient cell-state composition analysis with a **leave-one-study-out
+  cross-validated** classifier (scikit-learn gradient-boosted trees), a
+  label-permutation negative control, and permutation feature importance
+- Recognising a study/label confound in the tumour-vs-normal contrast and
+  reporting it descriptively rather than fitting an uninterpretable classifier
+- Honest reporting of a null result, with explicit limitations
 
 ## Provenance
 
