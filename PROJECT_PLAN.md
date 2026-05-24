@@ -99,21 +99,4 @@ scrnaseq-tumor-microenvironment/
 | Published scVI embedding has artifacts | QC the embedding (Phase 2) and report what we find honestly |
 | LUAD vs LUSC classification too easy (trivially separable) | If AUROC > 0.95, switch focus to LUAD subtyping or within-LUAD smoker-status |
 | Smoking metadata sparse in LuCA | Stretch goal only — drop if Phase 1 reveals coverage too thin |
-| Schedule slips beyond 8 weeks | Drop the smoking stretch first; core 6-week scope still produces a complete repo |
-
-## What this repo does NOT attempt
-
-- Not a publishable paper. (The SLE plan is separate.)
-- Not a Sherlock-Lung-style mutational analysis — this is transcriptome only.
-- No CAR-T / therapy-response framing — stays diagnostic / mechanistic, outside uBriGene PIIA scope.
-- No multi-omics integration; single-modality (transcriptome).
-
-## Provenance
-
-This is Phase 4 of the broader Computational Biology Transition Plan
-(`CompBio_Transition_Stepwise_Plan.docx`). Third pinned GitHub repo after
-`codon-discovery-pca-kmeans` and `cell-confluency-segmentation`. Demonstrates
-the specific tool stack (scanpy + scVI + CELLxGENE Census) that pharma
-comp-bio teams screen for, on a dataset adjacent to NCI Sherlock-Lung
-research — the kind of substrate a future Computational Scientist II
-posting at FNLCR / NCI would value.
+| Drop the smoking stretch first; core scope still produces a complete repo |
