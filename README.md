@@ -2,7 +2,13 @@
 
 ✅ **Complete** — end-to-end scRNA-seq analysis pipeline (notebooks 01–04), built May 2026.
 
+> **In one line:** cell-type annotation reproduced LuCA's published expert labels at **95% agreement (ARI 0.92)**; per-patient cell-state composition did **not** predict LUAD vs LUSC histology — a clean, honestly reported **null result** under leave-one-study-out cross-validation.
+
 End-to-end single-cell RNA-seq pipeline applied to the **LuCA core atlas of lung cancer cell states** (Salcher et al. 2022, *Cancer Cell*; 892K cells, 19 integrated NSCLC studies). Uses the 2026-standard pharma comp-bio stack — **scanpy + scVI** plus direct HDF5 reads via `h5py` for memory-efficient subsampling — for QC, embedding evaluation, cell-type annotation, and downstream compositional analysis of LUAD vs LUSC.
+
+![UMAP of the ~92K-cell subsample colored by annotated cell type](figures/umap_by_cell_type_major.png)
+
+*The ~92K-cell working subsample embedded on the scVI latent space, colored by annotated cell lineage.*
 
 **Author:** Osmanjan Timtura, Ph.D. · [LinkedIn](https://www.linkedin.com/in/osmanjan-timtura-b08316245/) · [GitHub](https://github.com/OsmanjanTimtura)
 
@@ -37,6 +43,11 @@ the same nine), the labelling **agreed on 95.2% of cells** with an
 soft spot — a fraction of NK cells called as T cells — reflects the
 well-known transcriptional overlap between NK and cytotoxic CD8 T cells.
 
+![Our annotation vs LuCA's published labels on the UMAP](figures/umap_annotation_compare.png)
+
+*Left: our marker-gene annotation. Right: LuCA's published expert labels
+harmonised to the same nine lineages — the two agree on 95.2% of cells.*
+
 **LUAD vs LUSC from composition — a null result (notebook 04).** Per-patient
 cell-type composition vectors (nine proportions) were used to predict
 adenocarcinoma vs squamous-cell histology across **71 patients** (50 LUAD /
@@ -44,6 +55,11 @@ adenocarcinoma vs squamous-cell histology across **71 patients** (50 LUAD /
 result is null: gradient-boosted trees reached **AUROC 0.48** — no better
 than the dummy baseline (0.44) and indistinguishable from a 100-iteration
 label-shuffle null (mean 0.48, **empirical p = 0.54**).
+
+![Label-shuffle null distribution with the real AUROC marked](figures/label_shuffle_null.png)
+
+*The real classifier's AUROC (0.48) sits squarely inside the 100-iteration
+label-shuffle null distribution — empirical p = 0.54, i.e. no signal.*
 
 This is a genuine negative result, not a pipeline failure: a synthetic
 positive control recovered a planted signal at AUROC 0.83, and the model and
@@ -64,6 +80,12 @@ confounded with study-of-origin. A classifier would report an uninterpretable
 mixture of biology and batch, so this contrast is presented descriptively
 only, with the confound documented explicitly. Recognising a confound and
 declining to over-claim is part of the demonstration.
+
+![Cell-state composition, tumour vs normal lung tissue](figures/composition_tumor_vs_normal.png)
+
+*Composition separates tumour from normal lung in the expected direction — but
+study-of-origin is perfectly confounded with tissue type, so this contrast is
+shown descriptively only.*
 
 ## Getting started
 
@@ -112,7 +134,11 @@ jupyter notebook notebooks/01_data_download_and_qc.ipynb
 
 ## Provenance
 
-Phase 4 of my self-directed computational-biology transition plan. Third pinned GitHub repo after `codon-discovery-pca-kmeans` and `cell-confluency-segmentation`. The dataset choice (LuCA) is deliberately adjacent to the **Sherlock-Lung Study at NCI / FNLCR** — the next-tier-up research environment I'd plausibly target as a future career move.
+Part of a self-directed computational-biology portfolio, alongside
+`codon-discovery-pca-kmeans` and `cell-confluency-segmentation`. The LuCA atlas
+was chosen for its scale and 19-study structure, which deliberately stress-test
+memory-efficient data handling, batch integration, and cross-study
+generalization.
 
 ## License
 
