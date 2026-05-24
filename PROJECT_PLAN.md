@@ -1,6 +1,6 @@
 # Project Plan — scRNA-seq Tumor Microenvironment Analysis (Lung)
 
-**Author:** Osmanjan Timtura · **Started:** May 14, 2026 · **Target completion:** 6–8 weeks
+**Author:** Osmanjan Timtura
 
 ## Scope
 
