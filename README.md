@@ -16,7 +16,7 @@ End-to-end single-cell RNA-seq pipeline applied to the **LuCA core atlas of lung
 
 ## Project plan
 
-See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the full 6–8 week scope, dataset choice, biological question, phases, risks, and what's deliberately out of scope.
+See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the full scope, dataset choice, biological question, phases, risks, and what's deliberately out of scope.
 
 **Short version:** Salcher et al. 2022 lung cancer atlas (LuCA) → stratified subsample (~100K cells) → QC + scVI batch integration → cell-type annotation benchmarked against published LuCA labels → per-patient cell-state composition → gradient-boosted-tree classifier (scikit-learn) predicting LUAD vs LUSC histology with leave-one-study-out cross-validation. **Stretch (not pursued):** within-LUAD never-smoker vs smoker compositional comparison.
 
