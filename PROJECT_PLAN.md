@@ -3,10 +3,7 @@
 **Author:** Osmanjan Timtura
 
 ## Scope
-
-A self-contained portfolio piece demonstrating end-to-end single-cell RNA-seq analysis using the 2026-standard pharma comp-bio stack (scanpy + scVI). **Not a publishable paper.** The goal is one clean GitHub repo that proves competence in the workflow recruiters at pharma comp-bio teams screen for.
-
-Specifically the repo should demonstrate:
+The repo demonstrates:
 
 - Loading a large multi-study public scRNA-seq atlas (the 1.2M-cell LuCA lung-cancer atlas)
 - Stratified subsampling that preserves per-study and per-subtype balance
